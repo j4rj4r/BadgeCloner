@@ -11,8 +11,43 @@ Le script peut aussi se lancer sur un ordinateur linux ayant accès à un lecteu
 
 ## Dépendances du script :
 - [Python 3.x](https://www.python.org/downloads/) : Qui permet de lancer le script.
-- [Librarie Python Flask](https://pypi.org/project/Flask/) : Qui permet de mettre en place un serveur web est donc l'interface graphique dans ce projet.
+- [Librarie Python Flask](https://pypi.org/project/Flask/) : Qui permet de mettre en place un serveur web et donc l'interface graphique dans ce projet.
 
 ## Installation :
+Après avoir installé Python3.x, vous devez installer la librairie Flask.
+```sh
+$ python3 -m pip install flask
+```
+Vous pouvez ensuite télécharger le projet.
+Pour que le script fonctionne correctement vous devez désactiver 2 modules (il est aussi possible d'enlever ces modules de facon permanente, un exemple [ici]( https://wiki.archlinux.org/index.php/Touchatag_RFID_Reader)).
+```sh
+sudo modprobe -r pn533_usb pn533
+```
+Pour finir vous devez créer le répertoire qui va stocker les dumps.
+```sh
+mkdir DumpDir
+```
 
-# En cours de dev
+## Configuration :
+Vous pouvez changer le nom du répertoire des dumps avec la variable
+```
+DUMPS_DIR
+```
+Pour renseigner une autre liste de clés
+```
+KEYFILE
+```
+Et changer le port du serveur
+```
+PORT
+```
+### Lancement et utilisation :
+Pour lancer le commande une commande suffit.
+```sh
+python3 server.py
+```
+L'url pour accéder à l'interface depuis le navigateur est :
+```
+localhost:PORT
+```
+PORT étant le numéro de port renseigné dans le script.
