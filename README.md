@@ -1,3 +1,3 @@
 # BadgeCloner
-Permet de cloner des badges d'immeubles 
+Permet de cloner des badges Vigik
 # En cours de dev
