@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, json
 import subprocess
 import os
-import time
 
 DUMPS_DIR = "DumpDir"
 KEYFILE = "key-file.txt"
