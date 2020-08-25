@@ -1,3 +1,3 @@
 # BadgeCloner
-Permet de cloner des badges Vigik
+Projet permettant de créer un boitier qui va dupliquer des badges Vigik.
 # En cours de dev
