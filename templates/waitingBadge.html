@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Badge Cloner</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="j4rj4r">
+    <link rel="stylesheet" href="res/css/bulma/bulma.min.css">
+  </head>
+  <body>
+    <div class="container is-fluid">
+      <section class="hero"><div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-spaced">Badge du client</h1>
+          <h2 id="info" class="subtitle">En attente du badge à copier ...</h2>
+          <a href="/" class="button is-link">Annuler</a>
+        </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
+<script>
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/detectBadge', true);
+xhr.onload = function() {
+    var jsonreponse = JSON.parse(xhr.response);
+    if (jsonreponse.status == "OK") {
+        document.getElementById("info").textContent = "Tentative de copie du badge ...";
+
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open('GET', '/readBadge', true);
+        xhr2.onload = function() {
+            var jsonreponse = JSON.parse(xhr2.response);
+            if (jsonreponse.status == "OK") {
+                window.location.href = "/wait?raison=Appuyer%20sur%20le%20bouton%20pour%20commencer%20la%20copie%20des%20badges.&redirect=/writeBadge/{{nbBadge}}/" + jsonreponse.UID;
+            } else {
+                window.location.href = "/?error=" + jsonreponse.message;
+            }
+        };
+        xhr2.send(null);
+    } else {
+        window.location.href = "/?error=" + jsonreponse.message;
+    }
+};
+
+xhr.send(null);
+</script>

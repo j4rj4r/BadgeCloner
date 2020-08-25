@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title>Badge Cloner</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="j4rj4r">
+    <link rel="stylesheet" href="res/css/bulma/bulma.min.css">
+  </head>
+  <body>
+    <div class="container is-fluid">
+      <section class="hero">
+        <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title is-spaced">Badge Cloner</h1>
+          {% if error is defined %}
+        <p class="has-text-danger">  {{ error }}</p>
+          {% endif %}
+          <h2 class="subtitle">Choisir le nombre de badges à cloner :</h2>
+          <div class=" is-centered">
+            <form action="/waitingBadge" method="get">
+              <input name="nbBadge" class="input" min="1" value="1" required type="number"/>
+              <hr>
+              <button class="control button is-primary is-large">Clonage</button>
+            </form>
+          </div>
+        </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
