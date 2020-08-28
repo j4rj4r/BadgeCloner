@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, json
 import subprocess
 import os
+import time
 
 DUMPS_DIR = "DumpDir"
 KEYFILE = "key-file.txt"
@@ -45,6 +46,7 @@ def detectBadge():
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
         result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
+        time.sleep(2)
         stdout = stdout.decode("utf-8")
         lines = stdout.split('\n')
         if "Interface opened" in lines[1]:
@@ -67,6 +69,7 @@ def readBadge():
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
         result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
+        time.sleep(2)
         stdout = stdout.decode("utf-8")
         lines = stdout.split('\n')
         if "Interface opened" in lines[1]:
@@ -79,6 +82,7 @@ def readBadge():
                         break
                     else :
                         stdout, stderr, status_code = runCommand('mfoc -f %s -P 500 -O %s/%s.dmp' %(KEYFILE, DUMPS_DIR, badge_UID))
+                        time.sleep(2)
                         if status_code == 0: #Si on a réussi à avoir le dump
                             result = {'status': 'OK', 'UID': badge_UID}
                             break
@@ -109,6 +113,7 @@ def copyBadge(uid):
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
         result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
+        time.sleep(2)
         stdout = stdout.decode("utf-8")
         lines = stdout.split('\n')
         if "Interface opened" in lines[1]:
@@ -116,12 +121,10 @@ def copyBadge(uid):
                 badge_type = lines[4].replace('  ', ' ')
                 if '00 04' in badge_type:
                     stdout, stderr, status_code = runCommand('mfoc -P 500 -O %s/new.dmp' %(DUMPS_DIR))
-                    print(stdout)
-                    print(status_code)
+                    time.sleep(2)
                     if status_code == 0: #Si on a réussi à avoir le dump
                         stdout, stderr, status_code = runCommand('nfc-mfclassic W a %s/%s.dmp %s/new.dmp' %(DUMPS_DIR, uid, DUMPS_DIR))
-                        print(stdout)
-                        print(status_code)
+                        time.sleep(2)
                         if status_code == 0: #Si on a réussi à copier
                             result = {'status': 'OK', 'message': 'Badge copié !'}
                             break
