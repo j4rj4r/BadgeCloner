@@ -27,8 +27,8 @@ sudo modprobe -r pn533_usb pn533
 ```
 Mfoc et LibNFC peuvent etre installer avec ces commandes : 
 ```sh
-sudo apt install mfoc
 sudo apt install libnfc*
+sudo apt install mfoc
 ```
 Pour finir vous devez créer le répertoire qui va stocker les dumps.
 ```sh
