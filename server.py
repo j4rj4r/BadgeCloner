@@ -44,7 +44,6 @@ def waitingBadge():
 @app.route('/detectBadge')
 def detectBadge():
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
-        result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
         time.sleep(2)
         stdout = stdout.decode("utf-8")
@@ -67,7 +66,6 @@ def detectBadge():
 @app.route('/readBadge')
 def readBadge():
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
-        result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
         time.sleep(2)
         stdout = stdout.decode("utf-8")
@@ -111,7 +109,6 @@ def writeBadge(nbBadge, uid):
 @app.route('/copyBadge/<uid>')
 def copyBadge(uid):
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
-        result = {'Error': '1'}
         stdout, stderr, return_code = runCommand('nfc-list')
         time.sleep(2)
         stdout = stdout.decode("utf-8")
