@@ -12,8 +12,8 @@ Le script peut aussi se lancer sur un ordinateur linux ayant accès à un lecteu
 ## Dépendances du script :
 - [Python 3.x](https://www.python.org/downloads/) : Qui permet de lancer le script.
 - [Librarie Python Flask](https://pypi.org/project/Flask/) : Qui permet de mettre en place un serveur web et donc l'interface graphique dans ce projet.
-- LibNFC
-- MFOC
+- [Libnfc](http://nfc-tools.org/index.php/Libnfc)
+- [MFOC](https://github.com/nfc-tools/mfoc)
 
 ## Installation :
 Après avoir installé Python3.x, vous devez installer la librairie Flask.
