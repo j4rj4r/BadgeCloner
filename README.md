@@ -23,16 +23,16 @@ $ python3 -m pip install flask
 Vous pouvez ensuite télécharger le projet.
 Pour que le script fonctionne correctement vous devez désactiver 2 modules (il est aussi possible d'enlever ces modules de facon permanente, un exemple [ici]( https://wiki.archlinux.org/index.php/Touchatag_RFID_Reader)).
 ```sh
-sudo modprobe -r pn533_usb pn533
+$ sudo modprobe -r pn533_usb pn533
 ```
 Mfoc et LibNFC peuvent etre installer avec ces commandes : 
 ```sh
-sudo apt install libnfc*
-sudo apt install mfoc
+$ sudo apt install libnfc*
+$ sudo apt install mfoc
 ```
 Pour finir vous devez créer le répertoire qui va stocker les dumps.
 ```sh
-mkdir DumpDir
+$ mkdir DumpDir
 ```
 
 ## Configuration :
@@ -51,7 +51,7 @@ PORT
 ### Lancement et utilisation :
 Pour lancer le commande une commande suffit.
 ```sh
-python3 server.py
+$ python3 server.py
 ```
 L'url pour accéder à l'interface depuis le navigateur est :
 ```
