@@ -30,7 +30,7 @@ def root():
     if request.args.get("error"):  # On affiche l'erreur si il y en a une.
         error = request.args.get("error")
         return render_template('index.html', error=error)
-    else :
+    else:
         return render_template('index.html')
 
 
@@ -38,7 +38,8 @@ def root():
 @app.route('/waitingBadge')
 def waitingBadge():
     nbBadge = request.args.get('nbBadge', default=1, type=int)
-    return render_template('waitingBadge.html', nbBadge=nbBadge)
+    return render_template('readBadge.html', nbBadge=nbBadge)
+
 
 # Une fois que le badge est détecté
 @app.route('/detectBadge')
@@ -57,12 +58,13 @@ def detectBadge():
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
-        else :
+        else:
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
 
-# Permet de lire et copier le badge du client (Route appellée avec du JS depuis la page waitingBadge.html)
+
+# Permet de lire et copier le badge du client (Route appellée avec du JS depuis la page readBadge.html)
 @app.route('/readBadge')
 def readBadge():
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
@@ -75,26 +77,26 @@ def readBadge():
                 badge_type = lines[4].replace('  ', ' ')
                 if '00 04' in badge_type:
                     badge_UID = lines[5].replace('UID (NFCID1): ', '').replace(' ', '')
-                    if os.path.isfile('%s/%s.dmp' %(DUMPS_DIR, badge_UID)) : #Si un dump existe déjà pour cet UID
+                    if os.path.isfile('%s/%s.dmp' % (DUMPS_DIR, badge_UID)):  # Si un dump existe déjà pour cet UID
                         result = {'status': 'OK', 'UID': badge_UID}
                         break
-                    else :
-                        stdout, stderr, status_code = runCommand('mfoc -f %s -P 500 -O %s/%s.dmp' %(KEYFILE, DUMPS_DIR, badge_UID))
+                    else:
+                        stdout, stderr, status_code = runCommand(
+                            'mfoc -f %s -P 500 -O %s/%s.dmp' % (KEYFILE, DUMPS_DIR, badge_UID))
                         time.sleep(2)
-                        if status_code == 0: #Si on a réussi à avoir le dump
+                        if status_code == 0:  # Si on a réussi à avoir le dump
                             result = {'status': 'OK', 'UID': badge_UID}
                             break
-                        else :
+                        else:
                             result = {'status': 'ERROR', 'message': 'Impossible de cracker le badge !'}
                             break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
-        else :
+        else:
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
-
 
 
 # Page d'attente des badges à cloner
@@ -105,7 +107,8 @@ def writeBadge(nbBadge, uid):
         return render_template('writeBadge.html', nbBadge=int(nbBadge), uid=uid, error=error)
     return render_template('writeBadge.html', nbBadge=int(nbBadge), uid=uid)
 
-#Permet de cloner les badges
+
+# Permet de cloner les badges
 @app.route('/copyBadge/<uid>')
 def copyBadge(uid):
     while True:  # Boucle infinie tant que le badge n'est pas detecté.
@@ -117,33 +120,35 @@ def copyBadge(uid):
             if len(lines) > 6:
                 badge_type = lines[4].replace('  ', ' ')
                 if '00 04' in badge_type:
-                    stdout, stderr, status_code = runCommand('mfoc -P 500 -O %s/new.dmp' %(DUMPS_DIR))
+                    stdout, stderr, status_code = runCommand('mfoc -P 500 -O %s/new.dmp' % (DUMPS_DIR))
                     time.sleep(2)
-                    if status_code == 0: #Si on a réussi à avoir le dump
-                        stdout, stderr, status_code = runCommand('nfc-mfclassic W a %s/%s.dmp %s/new.dmp' %(DUMPS_DIR, uid, DUMPS_DIR))
+                    if status_code == 0:  # Si on a réussi à avoir le dump
+                        stdout, stderr, status_code = runCommand(
+                            'nfc-mfclassic W a %s/%s.dmp %s/new.dmp' % (DUMPS_DIR, uid, DUMPS_DIR))
                         time.sleep(2)
-                        if status_code == 0: #Si on a réussi à copier
+                        if status_code == 0:  # Si on a réussi à copier
                             result = {'status': 'OK', 'message': 'Badge copié !'}
                             break
-                        else :
+                        else:
                             result = {'status': 'ERROR', 'message': 'Avez-vous mis un badge réinscriptible ?'}
                             break
-                    else :
+                    else:
                         result = {'status': 'ERROR', 'message': 'Impossible d\'écrire sur ce badge'}
                         break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
-        else :
+        else:
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
+
 
 @app.route('/wait')
 def wait():
     raison = request.args.get("raison")
     redirect = request.args.get("redirect")
-    return render_template('wait.html',raison=raison, redirect=redirect)
+    return render_template('wait.html', raison=raison, redirect=redirect)
 
 
 app.run(host=HOST, port=PORT)
