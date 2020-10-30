@@ -3,6 +3,7 @@ import subprocess
 import os
 import time
 
+
 DUMPS_DIR = "DumpDir"
 KEYFILE = "key-file.txt"
 HOST = "localhost"
@@ -85,7 +86,18 @@ def readBadge():
                             'mfoc -f %s -P 500 -O %s/%s.dmp' % (KEYFILE, DUMPS_DIR, badge_UID))
                         time.sleep(2)
                         if status_code == 0:  # Si on a réussi à avoir le dump
-                            result = {'status': 'OK', 'UID': badge_UID}
+                            if os.path.getsize('%s/%s.dmp' % (DUMPS_DIR, badge_UID)) == 1024:  # Mifare classic 1k
+                                with open('%s/%s.dmp' % (DUMPS_DIR, badge_UID), 'rb') as f:
+                                    hexdata = f.read().hex()
+                                    sector11 = hexdata[1408:1536]  # On récupère le secteur 11
+                                    if sector11[0:96] != "0" * 96:  # Si le secteur est pas vide
+                                        result = {'status': 'ERROR', 'message': 'Badge protégé ! Ne pas copier !'}
+                                        break
+                                    else:
+                                        result = {'status': 'OK', 'UID': badge_UID}
+                                        break
+                            else:
+                                result = {'status': 'OK', 'UID': badge_UID}
                             break
                         else:
                             result = {'status': 'ERROR', 'message': 'Impossible de cracker le badge !'}
@@ -120,7 +132,7 @@ def copyBadge(uid):
             if len(lines) > 6:
                 badge_type = lines[4].replace('  ', ' ')
                 if '00 04' in badge_type:
-                    stdout, stderr, status_code = runCommand('mfoc -P 500 -O %s/new.dmp' % (DUMPS_DIR))
+                    stdout, stderr, status_code = runCommand('mfoc -P 500 -O %s/new.dmp' % DUMPS_DIR)
                     time.sleep(2)
                     if status_code == 0:  # Si on a réussi à avoir le dump
                         stdout, stderr, status_code = runCommand(
