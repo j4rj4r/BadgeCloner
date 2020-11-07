@@ -78,7 +78,8 @@ def readBadge():
                 badge_type = lines[4].replace('  ', ' ')
                 if '00 04' in badge_type:
                     badge_UID = lines[5].replace('UID (NFCID1): ', '').replace(' ', '')
-                    if os.path.isfile('%s/%s.dmp' % (DUMPS_DIR, badge_UID)):  # Si un dump existe déjà pour cet UID
+                     # Si un dump existe déjà pour cet UID et qu'il est complet
+                    if ((os.path.isfile('%s/%s.dmp' % (DUMPS_DIR, badge_UID))) and (os.path.getsize('%s/%s.dmp' % (DUMPS_DIR, badge_UID)))) == 1024: 
                         result = {'status': 'OK', 'UID': badge_UID}
                         break
                     else:
