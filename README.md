@@ -1,5 +1,6 @@
 # BadgeCloner
 Projet permettant de créer un boitier qui va dupliquer des badges Vigik.
+Le boitier peut etre transporté ou etre utilisé dans un magasin pour vendre un service de badge cloné.
 
 ## Le matériel nécessaire :
 - Un raspberry pi
