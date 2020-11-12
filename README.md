@@ -49,7 +49,7 @@ Et changer le port du serveur
 PORT
 ```
 ### Lancement et utilisation :
-Pour lancer le commande une commande suffit.
+Pour lancer le script une commande suffit.
 ```sh
 $ python3 server.py
 ```
