@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, json
 import subprocess
 import os
 import time
+import logging
 
+logging.basicConfig(filename='error.log', level=logging.DEBUG)
 
 DUMPS_DIR = "DumpDir"
 KEYFILE = "key-file.txt"
@@ -104,9 +106,11 @@ def readBadge():
                             result = {'status': 'ERROR', 'message': 'Impossible de cracker le badge !'}
                             break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
+                    logging.warning(stdout)
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
         else:
+            logging.warning(stdout)
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
@@ -149,9 +153,11 @@ def copyBadge(uid):
                         result = {'status': 'ERROR', 'message': 'Impossible d\'écrire sur ce badge'}
                         break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
+                    logging.warning(stdout)
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
         else:
+            logging.warning(stdout)
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
