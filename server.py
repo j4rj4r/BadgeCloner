@@ -62,7 +62,7 @@ def detectBadge():
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
         else:
-            logging.warning(stdout.decode("utf-8"))
+            logging.warning(stdout)
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
@@ -107,11 +107,11 @@ def readBadge():
                             result = {'status': 'ERROR', 'message': 'Impossible de cracker le badge !'}
                             break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
-                    logging.warning(stdout.decode("utf-8"))
+                    logging.warning(stdout)
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
         else:
-            logging.warning(stdout.decode("utf-8"))
+            logging.warning(stdout)
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
@@ -154,11 +154,11 @@ def copyBadge(uid):
                         result = {'status': 'ERROR', 'message': 'Impossible d\'écrire sur ce badge'}
                         break
                 else:  # Si le badge n'est pas compatble avec le badge cloner.
-                    logging.warning(stdout.decode("utf-8"))
+                    logging.warning(stdout)
                     result = {'status': 'ERROR', 'message': 'Badge non compatible !'}
                     break
         else:
-            logging.warning(stdout.decode("utf-8"))
+            logging.warning(stdout)
             result = {'status': 'ERROR', 'message': 'Lecteur NFC  non connecté !'}
             break
     return json.dumps(result)
