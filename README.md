@@ -1,5 +1,6 @@
 # BadgeCloner
 Projet permettant de créer un boitier qui va dupliquer des badges Vigik.
+Il peut etre transporté ou etre utilisé dans un magasin pour vendre un service de badge cloné.
 
 ## Le matériel nécessaire :
 - Un raspberry pi
@@ -49,7 +50,7 @@ Et changer le port du serveur
 PORT
 ```
 ### Lancement et utilisation :
-Pour lancer le commande une commande suffit.
+Pour lancer le script une commande suffit.
 ```sh
 $ python3 server.py
 ```
