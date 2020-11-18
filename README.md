@@ -31,11 +31,28 @@ Mfoc et LibNFC peuvent etre installer avec ces commandes :
 $ sudo apt install libnfc*
 $ sudo apt install mfoc
 ```
-Pour finir vous devez créer le répertoire qui va stocker les dumps.
+Vous devez créer le répertoire qui va stocker les dumps.
 ```sh
 $ mkdir DumpDir
 ```
-
+Pour lancer le projet au lancement du raspberry :
+```sh
+$ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+```
+et vous devez ajouter ces commandes (vous pouvez ensuite fermer le fichier) : 
+```
+@sh /home/pi/launcher.sh &
+@chromium-browser --incognito --kiosk http://localhost:5000
+```
+Pour finir il faut créer le fichier launcher.sh
+```sh
+$ nano ~/launcher.sh
+```
+et y ajouter ce texte :
+```
+cd /home/pi/BadgeCloner
+python3 server.py
+```
 ## Configuration :
 Vous pouvez changer le nom du répertoire des dumps avec la variable
 ```
